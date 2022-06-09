@@ -43,7 +43,7 @@ repos:
     rev: 4.0.1
     hooks:
       - id: flake8
-        args: ["--count", "."]
+        args: ["--count", "--exclude", "*/migrations/*", "." ]
   - repo: https://github.com/myint/autoflake
     rev: v1.4
     hooks:
