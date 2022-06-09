@@ -37,7 +37,7 @@ def configure_sentry():
         ),
     )
 
-    if sentry_dsn != "":
+    if sentry_dsn and sentry_dsn != "":
         integrations = [DjangoIntegration]
         if project_type in ["api", "worker"]:
             integrations += [Boto3Integration]

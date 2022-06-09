@@ -2,7 +2,6 @@
 use_environment_layers = true
 environment_variable_name = "ENV"
 default_environment = "local"
-show_logs = true
 
 [environment]
 project.allow_all_origins = false
@@ -11,8 +10,10 @@ project.allowed_hosts = ["*"]
 project.show_debug_toolbar = false
 project.show_django_pages = false
 project.reload_app = false
-project.name = "BHUBCustomerAPIChallenge"
+project.name = "bhub_customer_api_challenge"
 cache.backend = "memcached.PyMemcacheCache"
+google.sso.enabled = false
+google.sso.allowable_domains = ["bhub.ai"]
 
 [environment.local]
 project.allow_all_origins = true
@@ -21,6 +22,9 @@ project.show_debug_toolbar = true
 project.reload_app = true
 project.show_django_pages = true
 cache.backend = "dummy.DummyCache"
+google.sso.accept_any_domain = true
+google.sso.current_site_domain = "localhost:8081"
+google.sso.allowable_domains = ["bhub.ai", "gmail.com"]
 
 [tool.black]
 target-version = ['py39']
@@ -66,6 +70,7 @@ authors = ["Chris Maillefaud <chrismaille@megalus.com.br>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+aiofiles = "*"
 arrow = "*"
 boto3 = "*"
 django = "*"
@@ -73,6 +78,7 @@ django-auto-prefetching = "*"
 django-cache-memoize = "*"
 django-cors-headers = "*"
 django-filter = "*"
+django-google-sso = "*"
 djangorestframework = "*"
 djangorestframework-api-key = "*"
 drf-spectacular = "*"
@@ -99,6 +105,7 @@ pre-commit = "*"
 pylint = "*"
 pylint-django = "*"
 pytest = "*"
+pytest-asyncio = "*"
 pytest-black = "*"
 pytest-celery = "*"
 pytest-coverage = "*"

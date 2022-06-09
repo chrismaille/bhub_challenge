@@ -79,3 +79,12 @@ migrate:
 # Create database migrations
 migrations:
 	@python manage.py makemigrations
+
+.PHONY: config_project
+# Automate first install
+config_project:
+	@echo "Configuring project..."
+	@cp env.example .env
+	@docker-compose build
+	@echo ">>> Opening VSCode..."
+	@code .

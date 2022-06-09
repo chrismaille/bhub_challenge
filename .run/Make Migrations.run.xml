@@ -1,18 +1,18 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Run Server" type="Python.DjangoServer" factoryName="Django server">
+  <configuration default="false" name="Make Migrations" type="PythonConfigurationType" factoryName="Python">
     <module name="bhub_django_challenge" />
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="PARENT_ENVS" value="true" />
     <envs>
       <env name="PYTHONUNBUFFERED" value="1" />
-      <env name="DJANGO_SETTINGS_MODULE" value="core.settings" />
     </envs>
     <option name="SDK_HOME" value="docker-compose://[\\wsl$\Ubuntu\home\chrismaille\Projects\bhub_django_challenge\docker-compose.yml]:dev_container/python" />
-    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/" />
     <option name="IS_MODULE_SDK" value="false" />
     <option name="ADD_CONTENT_ROOTS" value="true" />
     <option name="ADD_SOURCE_ROOTS" value="true" />
-    <EXTENSION ID="DockerComposeSettingsRunConfigurationExtension" commandLine="run --rm -p 8081:8080" />
+    <EXTENSION ID="DockerComposeSettingsRunConfigurationExtension" commandLine="run --rm" />
+    <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
     <EXTENSION ID="net.ashald.envfile">
       <option name="IS_ENABLED" value="true" />
       <option name="IS_SUBST" value="false" />
@@ -29,18 +29,13 @@
       <option name="region" />
       <option name="useCurrentConnection" value="false" />
     </EXTENSION>
-    <option name="launchJavascriptDebuger" value="false" />
-    <option name="port" value="8080" />
-    <option name="host" value="0.0.0.0" />
-    <option name="additionalOptions" value="" />
-    <option name="browserUrl" value="http://localhost:8081/swagger" />
-    <option name="runTestServer" value="false" />
-    <option name="runNoReload" value="false" />
-    <option name="useCustomRunCommand" value="false" />
-    <option name="customRunCommand" value="" />
-    <method v="2">
-      <option name="RunConfigurationTask" enabled="true" run_configuration_name="Stop Dev Containers" run_configuration_type="ShConfigurationType" />
-      <option name="RunConfigurationTask" enabled="true" run_configuration_name="Run Migrate" run_configuration_type="PythonConfigurationType" />
-    </method>
+    <option name="SCRIPT_NAME" value="manage" />
+    <option name="PARAMETERS" value="makemigrations" />
+    <option name="SHOW_COMMAND_LINE" value="false" />
+    <option name="EMULATE_TERMINAL" value="false" />
+    <option name="MODULE_MODE" value="true" />
+    <option name="REDIRECT_INPUT" value="false" />
+    <option name="INPUT_FILE" value="" />
+    <method v="2" />
   </configuration>
 </component>

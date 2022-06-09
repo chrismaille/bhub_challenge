@@ -42,7 +42,7 @@ DEBUG = asbool(settings["project.debug"])
 
 ALLOWED_HOSTS = settings["project.allowed_hosts"]
 
-LOGIN_URL = "/admin/login"
+LOGIN_URL = "/admin/login/"
 
 TOOLBAR_ALLOWED_HOSTS = [
     "localhost:8080",
@@ -103,6 +103,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sites",
+    "django_google_sso",
     "corsheaders",
     "debug_toolbar",
     "django_filters",
@@ -212,7 +214,14 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Google Apps Authentication
-EMAIL_ALLOWABLE_DOMAIN = "megalus.com.br"
+SITE_ID = 1
+CURRENT_SITE_DOMAIN = settings["google.sso.current_site_domain"]
+GOOGLE_SSO_ENABLED = settings["google.sso.enabled"]
+GOOGLE_SSO_CLIENT_ID = settings["google.sso.client_id"]
+GOOGLE_SSO_PROJECT_ID = settings["google.sso.project_id"]
+GOOGLE_SSO_CLIENT_SECRET = settings["google.sso.client_secret"]
+GOOGLE_SSO_ALLOWABLE_DOMAINS = settings["google.sso.allowable_domains"]
+GOOGLE_SSO_ACCEPT_ANY_DOMAIN = settings["google.sso.accept_any_domain"]
 
 # CORS
 CORS_ALLOW_ALL_ORIGINS = asbool(settings["project.allow_all_origins"])
@@ -228,9 +237,6 @@ CACHES = {
 }
 if "dummy" in settings["cache.backend"]:
     logger.warning("Memory Cache is Disabled.")
-
-PROVIDER_EXTRA_DATA_CACHE_TIMEOUT = 60 * 60 * 24
-
 
 if not RUNNING_TESTS:
     configure_sentry()

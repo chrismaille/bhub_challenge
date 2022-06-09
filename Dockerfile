@@ -4,7 +4,7 @@ RUN apt-get update && apt-get -y upgrade && \
     apt-get install locales git python3-psutil libssl-dev gcc g++ make -y wait-for-it \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN pip install poetry>=1.1.12
+RUN pip install -U pip poetry
 # Uncomment if you want to use Celery
 # RUN pip install setuptools==59.6.0   # Flower needs this version
 
