@@ -1,8 +1,11 @@
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django_google_sso.admin import User
 
-from core.helpers.validate_tax_id import validate_tax_id
+from core.helpers.validators.cell_phone import validate_cell_phone
+from core.helpers.validators.currency_code import validate_currency_code
+from core.helpers.validators.tax_id import validate_tax_id
 from core.models import BaseModel
 
 
@@ -15,7 +18,6 @@ class Customer(BaseModel):
     class Status(models.TextChoices):
         ACTIVE = "ACTIVE"
         BLOCKED = "BLOCKED"
-        DELETED = "DELETED"
 
     # Personal Data
     tax_id = models.CharField(max_length=20, validators=[validate_tax_id], unique=True)
@@ -26,11 +28,14 @@ class Customer(BaseModel):
 
     # Income Info
     declared_income = models.DecimalField(max_digits=20, decimal_places=2)
-    declared_income_currency = models.CharField(max_length=3)
+    declared_income_currency = models.CharField(
+        max_length=3,
+        validators=[validate_currency_code],
+    )
 
     # Contact Info
     email = models.EmailField(unique=True)
-    cell_phone = models.CharField(max_length=20)
+    cell_phone = models.CharField(max_length=20, validators=[validate_cell_phone])
 
     # Domain data
     status = models.CharField(
@@ -38,7 +43,12 @@ class Customer(BaseModel):
         choices=Status.choices,
         default=Status.ACTIVE,
     )
-    blocked_reason = models.TextField(null=True)
+    blocked_reason = models.TextField(blank=True, null=True)
+    blocked_by = models.ForeignKey(
+        User,
+        null=True,
+        on_delete=models.DO_NOTHING,
+    )
     payload = models.JSONField(null=True)
 
     @property
@@ -48,3 +58,4 @@ class Customer(BaseModel):
     class Meta:
         verbose_name = _("Customer")
         db_table = "customer"
+        ordering = ["created_at"]

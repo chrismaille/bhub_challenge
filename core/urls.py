@@ -24,10 +24,13 @@ from core.tools.openapi import (
     LoginSpectacularRedocView,
     LoginSpectacularSwaggerView,
 )
-from core.views import health_check
+from core.views import health_check, health_check_readiness
+from customers.url import urlpatterns as customers_urlpatterns
 
 urlpatterns = [
     path("health", health_check, name="health_check"),
+    path("health/readiness", health_check_readiness, name="health_check_readiness"),
+    path("api/", include(customers_urlpatterns)),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.GOOGLE_SSO_ENABLED:

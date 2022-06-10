@@ -510,6 +510,18 @@ optional = false
 python-versions = ">=3.6"
 
 [[package]]
+name = "drf-nested-routers"
+version = "0.93.4"
+description = "Nested resources for the Django Rest Framework"
+category = "main"
+optional = false
+python-versions = ">=3.5"
+
+[package.dependencies]
+Django = ">=1.11"
+djangorestframework = ">=3.6.0"
+
+[[package]]
 name = "drf-spectacular"
 version = "0.22.1"
 description = "Sane and flexible OpenAPI 3 schema generation for Django REST framework"
@@ -528,6 +540,14 @@ uritemplate = ">=2.0.0"
 [package.extras]
 offline = ["drf-spectacular-sidecar"]
 sidecar = ["drf-spectacular-sidecar"]
+
+[[package]]
+name = "drf-writable-nested"
+version = "0.6.3"
+description = "Writable nested helpers for django-rest-framework's serializers"
+category = "main"
+optional = false
+python-versions = ">=3.5"
 
 [[package]]
 name = "executing"
@@ -554,7 +574,7 @@ doc = ["sphinx", "sphinx-rtd-theme", "sphinxcontrib-spelling"]
 
 [[package]]
 name = "faker"
-version = "13.12.1"
+version = "13.13.0"
 description = "Faker is a Python package that generates fake data for you."
 category = "dev"
 optional = false
@@ -771,6 +791,14 @@ parallel = ["ipyparallel"]
 qtconsole = ["qtconsole"]
 test = ["pytest (<7.1)", "pytest-asyncio", "testpath"]
 test_extra = ["pytest (<7.1)", "pytest-asyncio", "testpath", "curio", "matplotlib (!=3.2.0)", "nbformat", "numpy (>=1.19)", "pandas", "trio"]
+
+[[package]]
+name = "iso4217"
+version = "1.9.20220401"
+description = "ISO 4217 currency data package for Python"
+category = "main"
+optional = false
+python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,>=2.7"
 
 [[package]]
 name = "isort"
@@ -1756,7 +1784,7 @@ python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,>=2.7"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "737a1045a840bdb86d97d8137d19357f75f2c348139a279b1b55cf15405ee44d"
+content-hash = "9a068e09678e06359559c1b97cce769d2887643bf79ad85a733257c4731ecadc"
 
 [metadata.files]
 aiofiles = [
@@ -1979,9 +2007,16 @@ djangorestframework-api-key = [
     {file = "djangorestframework-api-key-2.2.0.tar.gz", hash = "sha256:41b7c988f356d62410fb42b9982a3017be035b84d68f187e127c0b52e6557b19"},
     {file = "djangorestframework_api_key-2.2.0-py3-none-any.whl", hash = "sha256:c9884e52f2802994a02781eaba0a63a628a150ed55d58603d5c9c57a6657de43"},
 ]
+drf-nested-routers = [
+    {file = "drf-nested-routers-0.93.4.tar.gz", hash = "sha256:01aa556b8c08608bb74fb34f6ca065a5183f2cda4dc0478192cc17a2581d71b0"},
+    {file = "drf_nested_routers-0.93.4-py2.py3-none-any.whl", hash = "sha256:996b77f3f4dfaf64569e7b8f04e3919945f90f95366838ca5b8bed9dd709d6c5"},
+]
 drf-spectacular = [
     {file = "drf-spectacular-0.22.1.tar.gz", hash = "sha256:866e16ddaae167a1234c76cd8c351161373551db994ce9665b347b32d5daf38b"},
     {file = "drf_spectacular-0.22.1-py3-none-any.whl", hash = "sha256:17ac5e31e5d6150dd5fa10843b429202f4f38069202acc44394cc5a771de63d9"},
+]
+drf-writable-nested = [
+    {file = "drf_writable_nested-0.6.3-py3-none-any.whl", hash = "sha256:b96d30aca953f4dba313bb5697da4022470dc63fb2dbe68c93d38d389ec63ac2"},
 ]
 executing = [
     {file = "executing-0.8.3-py2.py3-none-any.whl", hash = "sha256:d1eef132db1b83649a3905ca6dd8897f71ac6f8cac79a7e58a1a09cf137546c9"},
@@ -1992,8 +2027,8 @@ factory-boy = [
     {file = "factory_boy-3.2.1.tar.gz", hash = "sha256:a98d277b0c047c75eb6e4ab8508a7f81fb03d2cb21986f627913546ef7a2a55e"},
 ]
 faker = [
-    {file = "Faker-13.12.1-py3-none-any.whl", hash = "sha256:0122b75e7960cbb1e2bbbf10ef9b8c183377878e38466854953539c6d822e7c0"},
-    {file = "Faker-13.12.1.tar.gz", hash = "sha256:fb95f956bac59c90f54543919d5c5ef41625e12a0773e5aa08c9b9c62ba58fb3"},
+    {file = "Faker-13.13.0-py3-none-any.whl", hash = "sha256:638b9c362e77bcd8212f0d1434c1940f1e8d6c336fe949add563ba0a154b6310"},
+    {file = "Faker-13.13.0.tar.gz", hash = "sha256:f192d238b3b6acb98ee85bd596258a15a171385613b30a7849e5845f8980d722"},
 ]
 filelock = [
     {file = "filelock-3.7.1-py3-none-any.whl", hash = "sha256:37def7b658813cda163b56fc564cdc75e86d338246458c4c28ae84cabefa2404"},
@@ -2058,6 +2093,10 @@ iniconfig = [
 ipython = [
     {file = "ipython-8.4.0-py3-none-any.whl", hash = "sha256:7ca74052a38fa25fe9bedf52da0be7d3fdd2fb027c3b778ea78dfe8c212937d1"},
     {file = "ipython-8.4.0.tar.gz", hash = "sha256:f2db3a10254241d9b447232cec8b424847f338d9d36f9a577a6192c332a46abd"},
+]
+iso4217 = [
+    {file = "iso4217-1.9.20220401-py2.py3-none-any.whl", hash = "sha256:53fe16e85bfa69b5af8345811179174e7f549918b33069f2cc7329d910e4b202"},
+    {file = "iso4217-1.9.20220401.tar.gz", hash = "sha256:e4c954a0c42e42a064cc226781cde39f88fe056959a391e2367c5e544d3107d2"},
 ]
 isort = [
     {file = "isort-5.10.1-py3-none-any.whl", hash = "sha256:6f62d78e2f89b4500b080fe3a81690850cd254227f27f75c3a0c491a1f351ba7"},

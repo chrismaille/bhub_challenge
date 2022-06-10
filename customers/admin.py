@@ -17,6 +17,7 @@ class CustomerAdmin(AdminMixin, admin.ModelAdmin):
         "tax_id",
         "email",
     ]
+    list_filter = ["deleted"]
     readonly_fields = AdminMixin.readonly_fields + ["payload"]
 
 
@@ -30,7 +31,11 @@ class AddressAdmin(AdminMixin, admin.ModelAdmin):
 
 @admin.register(Bank)
 class BankAdmin(AdminMixin, admin.ModelAdmin):
-    list_display = ("id", "name", "code", "valid_country")
+    list_display = (
+        "id",
+        "name",
+        "code",
+    )
     search_fields = [
         "code",
     ]

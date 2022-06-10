@@ -12,6 +12,13 @@ from rest_framework.response import Response
 from core.helpers.asyncio import async_
 
 
+async def get_serializer_data(serializer):
+    def get_data(serializer):
+        return serializer.data
+
+    return await async_(get_data)(serializer)
+
+
 class AsyncMixin:
     """Provides async view compatible support for DRF Views and ViewSets.
 
@@ -81,13 +88,10 @@ class AsyncCreateModelMixin(CreateModelMixin):
         await async_(self.perform_create)(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(
-            serializer.data,
+            await get_serializer_data(serializer),
             status=status.HTTP_201_CREATED,
             headers=headers,
         )
-
-    async def perform_create(self, serializer):
-        await async_(serializer.save)()
 
 
 class AsyncListModelMixin(ListModelMixin):
@@ -96,16 +100,17 @@ class AsyncListModelMixin(ListModelMixin):
     """
 
     async def list(self, request, *args, **kwargs):
+
         base_queryset = await async_(self.get_queryset)()
         queryset = await async_(self.filter_queryset)(base_queryset)
 
         page = await async_(self.paginate_queryset)(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
+            return self.get_paginated_response(await get_serializer_data(serializer))
 
         serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
+        return Response(await async_(get_serializer_data)(serializer))
 
 
 class AsyncRetrieveModelMixin(RetrieveModelMixin):
@@ -114,9 +119,10 @@ class AsyncRetrieveModelMixin(RetrieveModelMixin):
     """
 
     async def retrieve(self, request, *args, **kwargs):
+
         instance = await async_(self.get_object)()
         serializer = self.get_serializer(instance)
-        return Response(serializer.data)
+        return Response(await get_serializer_data(serializer))
 
 
 class AsyncUpdateModelMixin(UpdateModelMixin):
@@ -136,10 +142,7 @@ class AsyncUpdateModelMixin(UpdateModelMixin):
             # forcibly invalidate the prefetch cache on the instance.
             instance._prefetched_objects_cache = {}
 
-        return Response(serializer.data)
-
-    async def perform_update(self, serializer):
-        await async_(serializer.save)()
+        return Response(await get_serializer_data(serializer))
 
     async def partial_update(self, request, *args, **kwargs):
         kwargs["partial"] = True
@@ -153,7 +156,7 @@ class AsyncDestroyModelMixin(DestroyModelMixin):
 
     async def destroy(self, request, *args, **kwargs):
         instance = await async_(self.get_object)()
-        await self.perform_destroy(instance)
+        await async_(self.perform_destroy)(instance)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     async def perform_destroy(self, instance):

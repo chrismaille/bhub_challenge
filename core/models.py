@@ -9,7 +9,7 @@ RELATED_NAME_STRING = "%(app_label)s_%(class)ss_{}"
 
 class BaseModel(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, editable=False)
     created_by = models.ForeignKey(
         User,
         on_delete=models.DO_NOTHING,
@@ -25,6 +25,7 @@ class BaseModel(models.Model):
         related_name=RELATED_NAME_STRING.format("updated_by"),
         related_query_name=RELATED_QUERY_NAME_STRING.format("updated_by"),
     )
+    deleted = models.BooleanField(default=False)
     deleted_at = models.DateTimeField(null=True)
     deleted_by = models.ForeignKey(
         User,

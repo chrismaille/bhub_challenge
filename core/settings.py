@@ -238,5 +238,8 @@ CACHES = {
 if "dummy" in settings["cache.backend"]:
     logger.warning("Memory Cache is Disabled.")
 
+# Project Settings
+SECRET_TOKEN = settings["project.secret_token"]
+
 if not RUNNING_TESTS:
     configure_sentry()

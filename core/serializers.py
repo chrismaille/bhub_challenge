@@ -14,6 +14,18 @@ class AuthenticationFailedSerializer(serializers.Serializer):
     detail = serializers.CharField(default="Authorization header not found")
 
 
+class NotFoundSerializer(serializers.Serializer):
+    """Status 404 Response."""
+
+    detail = serializers.CharField(default="Not found.")
+
+
+class BadRequestSerializer(serializers.Serializer):
+    """Status 400 Response."""
+
+    field = serializers.ListField(default=["field error validation"])
+
+
 class GatewayTimeoutSerializer(serializers.Serializer):
     """Status 504 Response."""
 
@@ -23,10 +35,14 @@ class GatewayTimeoutSerializer(serializers.Serializer):
 class HealthCheckResponseSerializer(serializers.Serializer):
     """Response Ok."""
 
+    service = serializers.CharField(default="CustomerAPI (production)")
+    version = serializers.CharField(default="1.0.0")
     status = serializers.CharField(default="OK")
-    database = serializers.CharField(default="OK (1)")
-    worker = serializers.CharField(default="OK (Done)")
     time = serializers.CharField(default=arrow.utcnow().isoformat())
+
+
+class HealthCheckReadinessSerializer(HealthCheckResponseSerializer):
+    database = serializers.CharField(default="OK (1)")
 
 
 class AdminMixin:
@@ -37,4 +53,12 @@ class AdminMixin:
         "updated_by",
         "deleted_at",
         "deleted_by",
+        "deleted",
     ]
+
+
+DEFAULT_RESPONSES = {
+    401: AuthenticationFailedSerializer,
+    403: NotAuthorizedSerializer,
+    504: GatewayTimeoutSerializer,
+}
