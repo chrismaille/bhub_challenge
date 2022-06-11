@@ -32,7 +32,7 @@ jobs:
           echo '>> Show Logging last 10 lines:' && \
           docker-compose logs --tail=10 api &&
           echo '>> Curl HealthCheck endpoint...' && \
-          curl -f "http://127.0.0.1:8082/api/health/readiness" -H  "accept: application/json"
+          curl -f "http://127.0.0.1:8082/health/readiness" -H  "accept: application/json"
       - name: Run Tests
         run: |
           docker-compose run --entrypoint="" api make coverage
