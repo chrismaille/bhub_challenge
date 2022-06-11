@@ -17,9 +17,6 @@ Please use this guide on how to install this project.
 2. Install **Docker Desktop for Windows** using this link:
 [https://docs.docker.com/docker-for-windows/install/](https://docs.docker.com/docker-for-windows/install/). DO NOT INSTALL docker inside WSL, the Windows client will do that.
 
-3. Optional (but highly recommended) install **Windows Terminal**:
-[https://docs.microsoft.com/pt-br/windows/terminal/get-started](https://docs.microsoft.com/pt-br/windows/terminal/get-started)
-
 ********
 
 #### Pre-Requisites on Linux
@@ -70,8 +67,7 @@ On Local Terminal, run:
 ```bash
 $ wsl # windows cmd or powershell
 $ cd ~/path/to/bhub_challenge
-$ make init
-$ make build
+$ docker compose build
 ```
 
 ********

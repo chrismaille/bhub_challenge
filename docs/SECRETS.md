@@ -4,9 +4,7 @@ Use this guide on how to work with credentials with this project.
 
 ### Settings and Secrets
 
-On the [Install Guide](INSTALL.md) we said we manage all Project
-Configuration between *Project Settings* and *Project Secrets*. What
-this means?
+What's the difference between *Project Settings* and *Project Secrets*?
 
 Suppose in this project, we will need to make a call for a 3rd party
 API. To do this we need to define, *per environment*, these
@@ -120,8 +118,3 @@ will do this:
 2. This variable did exists in `.env` file, so Stela will return the
    value from memory, ignoring the value in toml.
 3. The SERVICE_TOKEN will be "456-789".
-
-### Add Project Secrets in AWS
-
-For the purpose of this challenge, all variables configured in Github Secrets
-will be added as environment variables inside the Fargate container.

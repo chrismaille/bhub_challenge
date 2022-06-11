@@ -23,7 +23,7 @@ jobs:
         uses: pre-commit/action@v2.0.3
       - name: Install Project
         run: |
-          cp env.credentials .env
+          cp env.example .env
           docker-compose build
       - name: Test Health
         run: |
