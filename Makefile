@@ -27,7 +27,7 @@ test:
 # Run Tests with Coverage inside Docker.
 coverage:
 	@echo "Running Tests with Coverage..."
-	@pytest --cov=./datasource_serasa --ignore=migrations
+	@pytest --cov=. --ignore=migrations
 
 .PHONY: bandit
 # Run Bandit inside Docker.

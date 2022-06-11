@@ -1,0 +1,35 @@
+
+name: pull_request
+on: [pull_request]
+jobs:
+  # Run on every Pull Request
+  build_and_test:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.head_ref }}
+      cancel-in-progress: true
+    steps:
+      - name: Checkout Branch
+        if: github.head_ref != 'main'
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Setups Python
+        uses: actions/setup-python@v2
+      - name: Run Pre-Commit
+        uses: pre-commit/action@v2.0.0
+      - name: Install Project
+        run: |
+          cp env.credentials .env
+          docker-compose build
+      - name: Test Health
+        run: |
+          docker-compose up -d && \
+          echo '>> Wait 10 seconds for container start...' && sleep 10 && \
+          echo '>> Show Logging last 10 lines:' && \
+          docker-compose logs --tail=10 api &&
+          echo '>> Curl HealthCheck endpoint...' && \
+          curl -f "http://127.0.0.1:8082/api/health/readiness" -H  "accept: application/json"
+      - name: Run Tests
+        run: |
+          docker-compose run --entrypoint="" api make coverage

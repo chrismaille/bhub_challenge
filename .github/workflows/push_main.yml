@@ -1,0 +1,32 @@
+name: Deploy
+on:
+  push:
+    branches:
+      - main
+jobs:
+  # Publish new Version
+  publish:
+    if: github.event_name == 'push' && !contains(github.event.head_commit.message, 'semantic-release') && !contains(github.event.head_commit.message, 'skip-ci')
+    runs-on: ubuntu-latest
+    name: Publish Release
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Setup Poetry
+        uses: abatilo/actions-poetry@v2.1.0
+      - name: Install Semantic Release
+        run: |
+          python3 -m pip install python-semantic-release
+      - name: Publish
+        env:
+          ADMIN_TOKEN: ${{ secrets.MEGALUS_SECRET }}
+        run: |
+          git config --global user.name "megalus"
+          git config --global user.email "chrismaille@megalus.com.br"
+          GH_TOKEN=$ADMIN_TOKEN semantic-release publish -D commit_author="megalus <chrismaille@megalus.com.br>"
