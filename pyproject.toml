@@ -1,0 +1,125 @@
+[tool.stela]
+use_environment_layers = true
+environment_variable_name = "ENV"
+default_environment = "local"
+
+[environment]
+project.allow_all_origins = false
+project.debug = false
+project.allowed_hosts = ["*"]
+project.show_debug_toolbar = false
+project.show_django_pages = false
+project.reload_app = false
+project.name = "bhub_customer_api_challenge"
+cache.backend = "memcached.PyMemcacheCache"
+google.sso.enabled = false
+google.sso.allowable_domains = ["bhub.ai"]
+
+[environment.local]
+project.allow_all_origins = true
+project.debug = true
+project.show_debug_toolbar = true
+project.reload_app = true
+project.show_django_pages = true
+cache.backend = "dummy.DummyCache"
+google.sso.current_site_domain = "localhost:8081"
+google.sso.allowable_domains = ["bhub.ai", "gmail.com"]
+
+[tool.black]
+target-version = ['py39']
+include = '\.pyi?$'
+exclude = '''
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | \venv
+    | \.aws-sam
+    | _build
+    | buck-out
+    | build
+    | dist
+    | migrations
+    | node_modules
+    | dependencies
+  )/
+)
+'''
+
+[tool.isort]
+filter_files = true
+include_trailing_comma = true
+multi_line_output = 3
+skip_glob = ["**migrations**"]
+use_parentheses = true
+
+[tool.subdivisions]
+source_name = "Challenger Customer API"
+use_aws_env_vars = true
+
+[tool.poetry]
+name = "bhub_django_challenge"
+version = "0.1.0"
+description = "Bhub Developer Challenge"
+authors = ["Chris Maillefaud <chrismaille@megalus.com.br>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+aiofiles = "*"
+arrow = "*"
+boto3 = "*"
+django = "*"
+django-auto-prefetching = "*"
+django-cache-memoize = "*"
+django-cors-headers = "*"
+django-countries = "*"
+django-filter = "*"
+django-google-sso = "*"
+djangorestframework = "*"
+djangorestframework-api-key = "*"
+drf-spectacular = "*"
+drf-nested-routers = "*"
+drf-writable-nested = "*"
+gunicorn = "*"
+loguru = "*"
+pymemcache = "*"
+psycopg2-binary = "*"
+sentry-sdk = "*"
+stela = "*"
+sub-divisions = "*"
+uvicorn = "*"
+validate-docbr = "*"
+iso4217 = "*"
+
+[tool.poetry.dev-dependencies]
+bandit = "*"
+black = "*"
+django-debug-toolbar = "*"
+factory-boy = "*"
+Faker = "*"
+flake8 = "*"
+ipython = "*"
+isort = "*"
+mock = "*"
+pre-commit = "*"
+pylint = "*"
+pylint-django = "*"
+pytest = "*"
+pytest-asyncio = "*"
+pytest-black = "*"
+pytest-celery = "*"
+pytest-coverage = "*"
+pytest-django = "*"
+pytest-mock = "*"
+pytest-freezegun = "*"
+pytest-lazy-fixture = "*"
+pytest-pylint = "*"
+requests-mock = "*"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
