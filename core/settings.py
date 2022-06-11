@@ -19,6 +19,7 @@ from loguru import logger
 from stela import settings
 
 from core import __version__
+from core.helpers.load_doc import load_doc
 from core.services.sentry import configure_sentry
 from core.tools.debug import show_toolbar
 
@@ -78,20 +79,13 @@ if DEBUG:
         "core.tools.serializers.BrowsableAPICamelRenderer",
     )
 
-SWAGGER_DESCRIPTION = """
-### Welcome to Bhub Customer API Challenge
-#### Environment is: {env}
-
-Please check the following links to understand *OpenAPI* specifications:
-* [OpenAPI Specification](https://swagger.io/specification/)
-* [DRF Spectacular](https://github.com/tfranzel/drf-spectacular)
-"""
+SWAGGER_DESCRIPTION = load_doc("SWAGGER.md")
 
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "Bhub Customer API",
-    "DESCRIPTION": SWAGGER_DESCRIPTION.format(env=ENV.upper()),
-    "VERSION": __version__,
+    "VERSION": f"{__version__}/{ENV.upper()}",
+    "DESCRIPTION": SWAGGER_DESCRIPTION,
 }
 
 # Application definition

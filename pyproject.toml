@@ -22,7 +22,6 @@ project.show_debug_toolbar = true
 project.reload_app = true
 project.show_django_pages = true
 cache.backend = "dummy.DummyCache"
-google.sso.accept_any_domain = true
 google.sso.current_site_domain = "localhost:8081"
 google.sso.allowable_domains = ["bhub.ai", "gmail.com"]
 

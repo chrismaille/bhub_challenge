@@ -1,201 +1,86 @@
-Main Story: [FTINSU-33](https://facily-jira.atlassian.net/browse/FTINSU-33)
+### Welcome to Bhub Customer API Challenge
+
+Please check the following links to understand *OpenAPI* specifications:
+* [OpenAPI Specification](https://swagger.io/specification/)
+* [DRF Spectacular](https://github.com/tfranzel/drf-spectacular)
+
+---
 
 ### Authentication
-You need to pass a valid `access_token` in the `Authorization` header, which you can obtain:
+On this page, you're already authenticated. For API access you need to authenticate passing the development Authorization header:
+
+```
+Authorization: Api-Key 1234-ABCDE
+```
 
 ---
 
-### Mobile Endpoints
+### API Workflow
+
+1. Make a POST to `/api/customers`. You will get the CustomerId (`id`).
+2. With CustomerId, make a POST to `/api/customers/<id>/address`.
+3. With CustomerId, make a POST to `/api/customers/<id>/account`.
 
 <details>
-<summary><b>Click to see instructions for Mobile endpoints.</b></summary>
+<summary>>> Click to see some example payloads</summary>
 
-From [Facily Core Commerce User Identity API](https://core-commerce-user-identity.staging.faci.ly/docs#/Users%20V2/sign_in_v2_users_signin_post),
-passing the `email` and `password` of the user you want to authenticate:
-
-Get access token in Facily Core Commerce User Identity API, passing the Bearer token
-which you can find here: [https://facily-jira.atlassian.net/browse/FTINSU-124](https://facily-jira.atlassian.net/browse/FTINSU-124)
-
-```bash
-$ curl -X 'POST' \
-  'https://core-commerce-user-identity.staging.faci.ly/v2/users/signin' \
-  -H 'accept: application/json' \
-  -H 'access_token: Bearer <<GET BEARER IN JIRA TASK FTINSU-124>>' \
-  -H 'Content-Type: application/json' \
-  -d '{
-  "key": "segurosteste@email.com",
-  "password": "super_senha_secreta"
-}'
-```
-Then use the `access_token` received to access any Acquisition Mobile Endpoints:
-
-```bash
-$ curl -H "Authorization: Bearer <access_token> https://fintech-insurance-acquisition.development.faci.ly/api/quotes/me
-```
-</details>
-
----
-
-### Backoffice Endpoints
-
-<details>
-<summary><b>Click to see instructions for Backoffice endpoints.</b></summary>
-
-From [Backoffice Admin API](https://finance-admin-api.development.faci.ly/docs/static/index.html#/),
-passing the `CF_Authorization` value inside the cookie saved on your Browser, after you open Swagger:
-
-```bash
-$ curl -X 'POST' \
-  'https://finance-admin-api.development.faci.ly/login' \
-  -H 'accept: */*' \
-  -H 'Content-Type: application/json' \
-  -d '{
-  "cfAccessToken": "<<ADD HERE THE CF_Authorization FROM SWAGGER COOKIE>>"
-}'
+#### Create Customer
+```json
+{
+  "tax_id": "834.485.901-85",
+  "first_name": "Seu",
+  "last_name": "Madruga",
+  "gender": "MALE",
+  "personal_pronoums": [
+    "Ele", "Seu"
+  ],
+  "declared_income": 2000.00,
+  "declared_income_currency": "BRL",
+  "email": "ramon@hotmail.com",
+  "cell_phone": "+5511 99999-9999"
+}
 ```
 
-Then use the `access_token` received to access any Acquisition Mobile Endpoints:
-
-```bash
-$ curl -H "Authorization: Bearer <access_token> https://fintech-insurance-acquisition.development.faci.ly/api/quotes/me
+#### Create Customer Account
+```json
+{
+  "bank": {
+    "code": "341",
+    "name": "ITAÚ"
+  },
+  "payment_type": "BANK_TRANSFER",
+  "bank_branch": "1234",
+  "bank_account": "12345-6"
+}
 ```
-</details>
 
----
 
-### Using the "Try it Out" button
-If you already have a JWT Token generated in the authentication systems you can use the
-`Try It Out` button, clicking on `Authorize` button and pass your access token:
-`Bearer <access_token>`:
-
-<details>
-<summary>Click to see button in action.</summary>
-
-<img src="static/docs/8e979d56.gif"/>
+#### Create Customer Address
+```json
+{
+  "address": {
+    "street": "Avenida Riomar Tapajós Virgulino Lages",
+    "district": "Do Bom Remédio",
+    "city": "Itaituba",
+    "state": "PA",
+    "country": "BR",
+    "zip_code": "68180-650"
+  },
+  "address_type": "BILLING",
+  "address_number": "465",
+  "address_complement": "atrás da padaria"
+}
+```
 
 </details>
 
-_**In local environment only**_, you can use the form below to generate a JWT Token:
-on **username** pass your WordPress Id and put any value on **password**:
-
-<details>
-<summary>Click to see form in action.</summary>
-
-<img src="static/docs/08612100.gif"/>
-
-</details>
-
----
-
-### Current Use:
-
-1. **GET** `/partners/active-products/me` to get the list of active products for the
-   current user.
-2. **GET** `/quotes/me` endpoint to get the current Quote for a logged user (or
-   Lead). If Lead was just created (automatically by Backend) this endpoint will
-   return 404.
-3. **POST** `/quotes/me/new` for create Lead's new Quote.
-4. **POST** occupation and personal data required in  `/quotes/me/analysis` to
-   approve or deny Quote.
-5. **POST** complete personal data at `/leads/me/personal-data`.
-6. **POST** complete address at `/quotes/me/address`.
-7. **POST** Lead accept terms and conditions to `/quotes/me/accept`.
-8. **GET** Payment External Link at `/quotes/me/payment` or `/quotes/me` or wait
-   for OneSignal notification with this data.
-9. **GET** Lead history for Quotes at `/quotes/me/history`.
-
-Each **POST** endpoint has his own **GET** method to retrieve the same data.
-
----
+[![](https://mermaid.ink/img/pako:eNqtkcFqAjEQhl8lzLG4BDzmIBQrvQiKemtKGZKpBt2NJBNBln1308aF3bYHD53TMHz_9x-mBeMtgYLIyPTicB-wri5T3Yg8b0_voqpmYukiz1NkX1OISrwudkLi2UnT3wo-wr6D80BZ29-UWK-2j0Y3xMHRZRD-XStbZ7siGDcNyp-tDRTjn92y7dePLJJY0CL82f8PylF66DPGp4Yf8hUUJpAvNTqbX9d-2TXwgWrSoPJqMRw16KbLXDrbXLGwjn0A9YmnSBPAxH57bQwoDol66P7-O9XdAE9tvNQ)](https://mermaid.live/edit#pako:eNqtkcFqAjEQhl8lzLG4BDzmIBQrvQiKemtKGZKpBt2NJBNBln1308aF3bYHD53TMHz_9x-mBeMtgYLIyPTicB-wri5T3Yg8b0_voqpmYukiz1NkX1OISrwudkLi2UnT3wo-wr6D80BZ29-UWK-2j0Y3xMHRZRD-XStbZ7siGDcNyp-tDRTjn92y7dePLJJY0CL82f8PylF66DPGp4Yf8hUUJpAvNTqbX9d-2TXwgWrSoPJqMRw16KbLXDrbXLGwjn0A9YmnSBPAxH57bQwoDol66P7-O9XdAE9tvNQ)
 
 ### Changelog
 <details>
 <summary><b>Click to open changelog</b></summary>
 
-#### 2022.04.12 - v1.1
-
-* On local environment add the option to generate a JWT Token.
-* Fix error when user uses the JWT token from `meryto` authentication system.
-* Swagger is now in `/docs` endpoint. Example: `https://fintech-insurance-acquisition.development.faci.ly/docs`.
-  The older endpoints will redirect to here.
-
-#### 2022.04.08 - v1.0
-
-From this point API is now versioned: the latest version will be always
-`/api/latest/<endpoint>` - for example `/api/latest/quotes/me`.
-
-##### Other changes
-
-* Rename endpoint `partners/me/active-products/schemas` to
-  `/partners/active-products/me/schema/`.
-* Removed `/quotes/me/product` endpoint.
-* Removed `/quotes/me/occupation` endpoint.
-* Rollback `/quotes/me/payment` GET endpoint.
-* Add fields `status`, `external_payment_link` and `external_payment_link_valid_through`
-  to `/quotes/me/payment` GET endpoint.
-* Remove `pep` field in Lead Response
-* Add `facily_wordpress_id` field in Lead Response
-* Add `partner_quote_id` field in Product Response
-
-----
-
-#### 2022.04.01 - New additions per mobile team requests:
-
-* Revert `product` changes in `/quotes/me` endpoint.
-* All datetime fields are now returned as `ISO 8601` format: `2020-01-01T00:00:00.000Z`.
-* Add the `product_payment_method` field to `/quotes/me` endpoint. This field means the
-  payment method "chosen" by user. (In fact, it is selected in backend automaticaly, like
-  product, because currently, we have just only one partner/product/payment_method combo).
-* Add missing fields in `/quotes/me` endpoint:
-
-| Field                            | Type     | Description                                                   |
-|----------------------------------|----------|---------------------------------------------------------------|
-| `branch_number`                  | str      | Bank Branch Number (for BANK TRANSFER method). Not used now.  |
-| `account_number`                 | str      | Bank Account Number (for BANK TRANSFER method). Not used now. |
-| `external_payment_link`          | str      | URL External Payment for CREDIT CARD method.                  |
-| `external_payment_valid_through` | datetime | URL External Payment expiration datetime                      |
-
-----
-
-#### 2022.03.30 - Refactoring:
-
-* Removed `/api/occupations/` endpoint.
-* Removed `/api/quotes/me/payment` endpoint.
-* Removed `partner_product_ids` in `Product` resource.
-* On `/api/quotes/me` endpoint, `product` now contains `partner_id`, `title`,
-  `description`, `product_price`, `product_price_currency`, `product_price_recurrence`
-  and `product_locale`. For full product details, please refer to the
-  `/api/quotes/me/product` endpoint.
-* Added `terms_accepted_ip_address`, `terms_accepted_datetime` and `terms_accepted_email` in
-  `Quote` resource.
-* Removed `pep` and `lead_occupation` in `Quote` resource.
-
-----
-
-#### 2022.03.24 - New additions per mobile team requests:
-
-* Add `/api/partners/active-products/schemas` endpoint
-* Add `/api/quotes/me/payment/schemas` endpoint
-
-----
-
-#### 2022.03.23 - New additions per mobile team requests:
-
-* Add all `/api/quotes/me/analysis` endpoints
-* Make POST and GET schemas equal in `/api/quotes/me/address` endpoint
-* Add new fields in `/api/quotes/me/`:
-
-| Field                 | Type      | Description                               |
-|-----------------------|-----------|-------------------------------------------|
-| `is_final_state`      | bool      | Return if Quote is in a final status      |
-| `is_persistent_state` | bool      | Return if Quote is in a persistent status |
-| `denied_reason`       | list[str] | Show denied reasons for a denied Quote    |
-
-* Add Product Titles, Description and FAQ in `/api/partners/active-products/me` endpoint
-
----
-
-#### 2022.02.15 - Initial version
+#### 2022.06.10 - Initial version
 </details>
 
 ---
