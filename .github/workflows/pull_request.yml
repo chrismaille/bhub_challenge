@@ -35,4 +35,4 @@ jobs:
           curl -f "http://127.0.0.1:8082/health/readiness" -H  "accept: application/json"
       - name: Run Tests
         run: |
-          docker-compose run --entrypoint="" api make coverage
+          docker-compose run --entrypoint="" api make test
