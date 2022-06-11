@@ -215,7 +215,6 @@ GOOGLE_SSO_CLIENT_ID = settings["google.sso.client_id"]
 GOOGLE_SSO_PROJECT_ID = settings["google.sso.project_id"]
 GOOGLE_SSO_CLIENT_SECRET = settings["google.sso.client_secret"]
 GOOGLE_SSO_ALLOWABLE_DOMAINS = settings["google.sso.allowable_domains"]
-GOOGLE_SSO_ACCEPT_ANY_DOMAIN = settings["google.sso.accept_any_domain"]
 
 # CORS
 CORS_ALLOW_ALL_ORIGINS = asbool(settings["project.allow_all_origins"])
