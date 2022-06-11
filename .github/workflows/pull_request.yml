@@ -10,14 +10,17 @@ jobs:
       cancel-in-progress: true
     steps:
       - name: Checkout Branch
-        if: github.head_ref != 'main'
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
       - name: Setups Python
         uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+      - name: Python Poetry Action
+        uses: abatilo/actions-poetry@v2.1.3
       - name: Run Pre-Commit
-        uses: pre-commit/action@v2.0.0
+        uses: pre-commit/action@v2.0.3
       - name: Install Project
         run: |
           cp env.credentials .env
