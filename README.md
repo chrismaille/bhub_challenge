@@ -35,8 +35,8 @@ following credentials:
 * user: admin
 * password: admin
 
-| Page         | Address                                                      | Use                         | Authenticated |
-|:-------------|:-------------------------------------------------------------|:----------------------------|:--------------|
-| Health-Check | [http://localhost:8081/health](http://localhost:8081/health) | Health-Check                | No            |
-| Swagger UI   | [http://localhost:8081/docs](http://localhost:8081/docs)     | API Documentation (Swagger) | Yes (Django)  |
-| Django Admin | [http://localhost:8081/admin](http://localhost:8081/admin)   | Django Admin                | Yes (Django)  |
+| Page         | Address                                                        | Use                         | Authenticated |
+|:-------------|:---------------------------------------------------------------|:----------------------------|:--------------|
+| Health-Check | [http://localhost:8081/health](http://localhost:8081/health)   | Health-Check                | No            |
+| Swagger UI   | [http://localhost:8081/swagger](http://localhost:8081/swagger) | API Documentation (Swagger) | Yes (Django)  |
+| Django Admin | [http://localhost:8081/admin](http://localhost:8081/admin)     | Django Admin                | Yes (Django)  |
