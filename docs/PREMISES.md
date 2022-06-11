@@ -11,7 +11,7 @@ A partir das premissas apresentadas, está adicionado:
 * O cadastro pode ser acessado tanto via API quando via Admin Panel.
 * **Dados Bancários** serão considerados como um de vários _Métodos de Pagamento_.
 * O cadastro pode ter mais de um endereço, classificado como _Entrega_ ou _Cobrança_.
-* Toda alteração no cadastro deve ser realizada por um usuário autenticado. No caso da API, será usado um usuário específico para a API.
+* Toda a alteração no cadastro deve ser realizada por um usuário autenticado. No caso da API, será usado um usuário específico para a API.
 
 #### Tópicos para Apresentação
 
