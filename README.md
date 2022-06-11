@@ -16,9 +16,6 @@ Use these guides to work on this project:
 
 * Premises Guide: [PREMISES.md](docs/PREMISES.md)
 * Installation Guide: [INSTALL.md](docs/INSTALL.md)
-* Developing Guide: [DEVELOP.md](docs/DEVELOP.md)
-* Versioning Guide: [VERSIONING.md](docs/VERSIONING.md)
-* Credentials Guide: [SECRETS.md](docs/SECRETS.md)
 
 ### TLDR
 1. Clone project on WSL2 or Linux. Make sure you have docker installed.

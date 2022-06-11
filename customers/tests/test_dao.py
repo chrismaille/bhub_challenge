@@ -40,7 +40,7 @@ def test_mark_as_blocked(admin_user, active_customer):
 
     # Act
     dao = CustomerDAO(admin_user)
-    customer = dao.mark_as_blocked(active_customer, data)
+    customer = dao.mark_as_blocked(active_customer, data["reason"])
 
     # Assert
     assert customer.blocked_by == admin_user

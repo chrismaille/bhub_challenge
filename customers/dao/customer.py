@@ -40,9 +40,9 @@ class CustomerDAO:
         customer.deleted = True
         customer.save()
 
-    def mark_as_blocked(self, customer: Customer, data: dict) -> Customer:
+    def mark_as_blocked(self, customer: Customer, reason: str) -> Customer:
         logger.info(f"Mark customer {customer} as blocked.")
-        customer.blocked_reason = data["reason"]
+        customer.blocked_reason = reason
         customer.status = Customer.Status.BLOCKED
         customer.blocked_by = self.user
         customer.save()
@@ -91,3 +91,31 @@ class CustomerDAO:
         customer_account.deleted_by = self.user
         customer_account.deleted = True
         customer_account.save()
+
+    def update_customer(self, serializer) -> Customer:
+        logger.info(
+            f"Update customer for TaxId {serializer.instance.tax_id}",
+        )
+        return serializer.save(
+            updated_at=arrow.utcnow().datetime,
+            updated_by=self.user,
+        )
+
+    def update_customer_address(self, serializer):
+        logger.info(
+            f"Update customer address for customer "
+            f"{serializer.instance.customer.id}",
+        )
+        return serializer.save(
+            updated_at=arrow.utcnow().datetime,
+            updated_by=self.user,
+        )
+
+    def update_customer_account(self, serializer):
+        logger.info(
+            f"Save customer account for customer {serializer.instance.customer.id}",
+        )
+        return serializer.save(
+            updated_at=arrow.utcnow().datetime,
+            updated_by=self.user,
+        )

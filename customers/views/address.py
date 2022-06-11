@@ -1,6 +1,5 @@
 from uuid import UUID
 
-from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_schema
 from rest_framework import viewsets
@@ -16,6 +15,7 @@ from core.tools.drf import (
     AsyncRetrieveModelMixin,
     AsyncUpdateModelMixin,
 )
+from core.views import UserMixin
 from customers.dao.customer import CustomerDAO
 from customers.models.customer_address import CustomerAddress
 from customers.serializers import CustomerAddressSerializer
@@ -30,6 +30,7 @@ from customers.serializers import CustomerAddressSerializer
     ],
 )
 class CustomerAddressViewSet(
+    UserMixin,
     AsyncMixin,
     AsyncCreateModelMixin,
     AsyncRetrieveModelMixin,
@@ -49,13 +50,6 @@ class CustomerAddressViewSet(
             customer=self.kwargs["customer_id"],
             deleted=False,
         ).all()
-
-    def _get_user(self) -> User:
-        return (
-            self.request.user
-            if not self.request.user.is_anonymous
-            else User.objects.filter(is_superuser=True).first()
-        )
 
     @extend_schema(
         summary=_("List Customer Addresses."),
@@ -117,6 +111,11 @@ class CustomerAddressViewSet(
     )
     async def update(self, request, *args, **kwargs):
         return await super().update(request, *args, **kwargs)
+
+    def perform_update(self, serializer):
+        user = self._get_user()
+        dao = CustomerDAO(user)
+        dao.update_customer_address(serializer)
 
     @extend_schema(
         summary=_("Mark Customer Address as deleted."),
