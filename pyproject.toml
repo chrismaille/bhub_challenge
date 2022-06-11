@@ -71,7 +71,7 @@ major_on_zero = true
 
 [tool.poetry]
 name = "bhub_django_challenge"
-version = "0.1.0"
+version = "1.0.0"
 description = "Bhub Developer Challenge"
 authors = ["Chris Maillefaud <chrismaille@megalus.com.br>"]
 
