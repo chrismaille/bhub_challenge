@@ -21,6 +21,15 @@ from core.settings import ENV, PROJECT_NAME
 from core.tools.throttle import AnonThrottle
 
 
+class UserMixin:
+    def _get_user(self) -> User:
+        return (
+            self.request.user
+            if not self.request.user.is_anonymous
+            else User.objects.filter(is_superuser=True).first()
+        )
+
+
 @require_http_methods(["GET", "OPTIONS"])
 @extend_schema(
     summary=_("Container is responding?"),

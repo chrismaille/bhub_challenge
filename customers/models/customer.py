@@ -34,7 +34,7 @@ class Customer(BaseModel):
     )
 
     # Contact Info
-    email = models.EmailField(unique=True)
+    email = models.EmailField()
     cell_phone = models.CharField(max_length=20, validators=[validate_cell_phone])
 
     # Domain data

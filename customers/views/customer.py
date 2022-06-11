@@ -1,6 +1,5 @@
 from uuid import UUID
 
-from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from django.utils.translation import gettext_lazy as _
 from django_filters import rest_framework as filters
@@ -22,9 +21,14 @@ from core.tools.drf import (
     AsyncRetrieveModelMixin,
     AsyncUpdateModelMixin,
 )
+from core.views import UserMixin
 from customers.dao.customer import CustomerDAO
 from customers.models.customer import Customer
-from customers.serializers import BlockUserSerializer, CustomerSerializer
+from customers.serializers import (
+    BlockUserSerializer,
+    CustomerSerializer,
+    EditCustomerSerializer,
+)
 
 
 class CustomerFilter(filters.FilterSet):
@@ -39,6 +43,7 @@ class CustomerFilter(filters.FilterSet):
     tags=["customers"],
 )
 class CustomerViewSet(
+    UserMixin,
     AsyncMixin,
     AsyncCreateModelMixin,
     AsyncRetrieveModelMixin,
@@ -63,13 +68,6 @@ class CustomerViewSet(
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_fields = ("email", "tax_id")
 
-    def _get_user(self) -> User:
-        return (
-            self.request.user
-            if not self.request.user.is_anonymous
-            else User.objects.filter(is_superuser=True).first()
-        )
-
     @extend_schema(
         summary=_("List Bhub Customers."),
         description=_("Can filter by Email and TaxId."),
@@ -83,7 +81,7 @@ class CustomerViewSet(
 
     @extend_schema(
         summary=_("Create new customer."),
-        description=_("Email and TaxId must be unique per Customer."),
+        description=_("TaxId must be unique per Customer."),
         responses={
             201: CustomerSerializer,
             400: BadRequestSerializer,
@@ -113,6 +111,7 @@ class CustomerViewSet(
     @extend_schema(
         summary=_("Update Customer Data."),
         description=_("Update Customer."),
+        request=EditCustomerSerializer,
         responses={
             200: CustomerSerializer,
             400: BadRequestSerializer,
@@ -121,7 +120,13 @@ class CustomerViewSet(
         | DEFAULT_RESPONSES,
     )
     async def update(self, request, *args, **kwargs):
+        kwargs["partial"] = True
         return await super().update(request, *args, **kwargs)
+
+    def perform_update(self, serializer: CustomerSerializer):
+        user = self._get_user()
+        dao = CustomerDAO(user)
+        dao.update_customer(serializer)
 
     @extend_schema(
         summary=_("Mark Customer as deleted."),
@@ -154,16 +159,22 @@ class CustomerViewSet(
         | DEFAULT_RESPONSES,
     )
     @action(methods=["put"], detail=True)
-    async def block(self, request: Request, pk: UUID) -> Response:
+    async def block(self, request: Request, id: UUID) -> Response:
         serializer = BlockUserSerializer(data=request.data)
         await async_(serializer.is_valid)(raise_exception=True)
 
-        user = await async_(self._get_user)()
-        customer = await async_(get_object_or_404)(Customer, pk=pk)
-
-        dao = CustomerDAO(user)
-        customer = await async_(dao.mark_as_blocked)(
-            customer=customer,
-            data=serializer.validated_data,
+        customer = await async_(self.perform_block)(
+            customer_id=id,
+            reason=serializer.validated_data["reason"],
         )
         return Response(self.get_serializer(customer).data)
+
+    def perform_block(self, customer_id: UUID, reason: str) -> Customer:
+        user = self._get_user()
+        customer = get_object_or_404(Customer, pk=customer_id)
+
+        dao = CustomerDAO(user)
+        return dao.mark_as_blocked(
+            customer=customer,
+            reason=reason,
+        )

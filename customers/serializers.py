@@ -29,6 +29,11 @@ class CustomerSerializer(serializers.ModelSerializer):
         }
 
 
+class EditCustomerSerializer(CustomerSerializer):
+    class Meta(CustomerSerializer.Meta):
+        exclude = CustomerSerializer.Meta.exclude + ["tax_id"]
+
+
 class BlockUserSerializer(serializers.Serializer):
     reason = serializers.CharField(required=True)
 
