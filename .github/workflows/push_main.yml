@@ -22,4 +22,6 @@ jobs:
           semantic-release --help
       - name: Publish
         run: |
+          git config --global user.name "megalus"
+          git config --global user.email "chrismaille@megalus.com.br"
           semantic-release publish
