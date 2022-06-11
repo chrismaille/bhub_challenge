@@ -20,6 +20,7 @@ class CustomerSerializer(serializers.ModelSerializer):
             "deleted_by",
             "payload",
             "deleted",
+            "blocked_by",
         ]
         extra_kwargs = {
             "status": {"read_only": True},

@@ -61,7 +61,7 @@ class CustomerDAO:
     ) -> CustomerAddress:
         logger.info(
             f"Save customer address with zipcode "
-            f"{serializer.validated_data['zip_code']}",
+            f"{serializer.validated_data['address']['zip_code']}",
         )
         return serializer.save(
             created_by=self.user,

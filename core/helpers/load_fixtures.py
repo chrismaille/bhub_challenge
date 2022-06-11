@@ -10,7 +10,7 @@ async def load_fixture(app: str, filename: str) -> dict[any, any]:
     """Load fixtures from Django App fixtures folder.
 
     Example:
-    * Add the file `my_response.json` in genesis/tests/fixtures
+    * Add the file `my_response.json` in customers/tests/fixtures
     * In tests load the file using::
 
         >>> import pytest
@@ -18,7 +18,7 @@ async def load_fixture(app: str, filename: str) -> dict[any, any]:
         >>>
         >>> @pytest.mark.asyncio
         >>> async def test_load_fixture():
-        >>>     data = await load_fixture("genesis", "my_response.json")
+        >>>     data = await load_fixture("customers", "my_response.json")
         >>>     assert data is not None
 
     For syncronous tests please use async_to_sync decorator.

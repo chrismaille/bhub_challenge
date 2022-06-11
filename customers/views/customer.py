@@ -64,7 +64,11 @@ class CustomerViewSet(
     filterset_fields = ("email", "tax_id")
 
     def _get_user(self) -> User:
-        return self.request.user or User.objects.filter(is_superuser=True).first()
+        return (
+            self.request.user
+            if not self.request.user.is_anonymous
+            else User.objects.filter(is_superuser=True).first()
+        )
 
     @extend_schema(
         summary=_("List Bhub Customers."),

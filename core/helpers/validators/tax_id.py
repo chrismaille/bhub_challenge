@@ -7,4 +7,5 @@ def validate_tax_id(value: str):
     """Validate CPF numbers."""
     cnpj = CPF()
     if not cnpj.validate(value):
-        raise ValidationError(_("CNPJ number is not valid"))
+        raise ValidationError(_("CPF number is not valid."))
+    return value
